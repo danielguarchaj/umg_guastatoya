@@ -19,6 +19,8 @@ class ClasificacionViewSet(ModelViewSet):
 
 
 class PublicacionViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+
     def get_queryset(self):
         if 'clasificacion_id' in self.request.query_params:
             return Publicacion.objects.filter(clasificacion__pk=self.request.query_params['clasificacion_id']).order_by('-fecha_hora_creacion')
