@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from publicaciones.serializers import (
     ClasificacionSerializer, 
@@ -15,11 +15,11 @@ from publicaciones.models import (
 class ClasificacionViewSet(ModelViewSet):
     serializer_class = ClasificacionSerializer
     queryset = Clasificacion.objects.all()
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
 class PublicacionViewSet(ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get_queryset(self):
         if 'clasificacion_id' in self.request.query_params:
