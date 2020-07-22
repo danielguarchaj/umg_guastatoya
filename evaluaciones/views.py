@@ -1,3 +1,4 @@
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
 
-from evaluaciones.serializers import EvaluacionSerializer
+from evaluaciones.serializers import EvaluacionSerializer, CursoSerializer
 from evaluaciones.models import (
     Evaluacion,
     Pregunta,
@@ -15,17 +16,27 @@ from evaluaciones.models import (
 from django.contrib.auth.models import User
 
 
+class CursoViewSet(ModelViewSet):
+    serializer_class = CursoSerializer
+    queryset = Curso.objects.all()
+    # permission_classes = (IsAuthenticated, )
+
+
 class EvaluacionList(ListAPIView):
     serializer_class = EvaluacionSerializer
     queryset = Evaluacion.objects.all()
+    # permission_classes = (IsAuthenticated, )
 
 
 class EvaluacionRetrieve(RetrieveAPIView):
     serializer_class = EvaluacionSerializer
     queryset = Evaluacion.objects.all()
+    # permission_classes = (IsAuthenticated, )
 
 
 class CreateEvaluacionAPIView(APIView):
+    # permission_classes = (IsAuthenticated, )
+
     def post(self, request, *args, **kwargs):
         evaluacion_data = request.data
         preguntas = request.data['preguntas']

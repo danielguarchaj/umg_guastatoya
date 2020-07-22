@@ -10,6 +10,13 @@ from evaluaciones.models import (
 
 from users.serializers import UserProfileSerializer
 
+
+class CursoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Curso
+        fields = '__all__'
+
+
 class RespuestaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Respuesta
