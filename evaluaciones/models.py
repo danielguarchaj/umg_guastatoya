@@ -16,14 +16,14 @@ class Evaluacion(models.Model):
 class Pregunta(models.Model):
     titulo = models.CharField(max_length=500)
     
-    evaluacion = models.ForeignKey(Evaluacion, on_delete=models.CASCADE, related_name='evaluacion_preguntas')
+    evaluacion = models.ForeignKey(Evaluacion, on_delete=models.CASCADE, related_name='preguntas')
 
 
 class Respuesta(models.Model):
     titulo = models.CharField(max_length=500)
     correcto = models.BooleanField()
     
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='pregunta_respuesta')
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='respuestas')
 
 
 class EvaluacionResuelta(models.Model):
