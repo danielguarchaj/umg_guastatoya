@@ -67,3 +67,33 @@ class CreateEvaluacionAPIView(APIView):
                 )
         serializer = EvaluacionSerializer(evaluacion)
         return Response(serializer.data)
+
+
+class UpdateEvaluacionAPIView(APIView):
+    # permission_classes = (IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        evaluacion_data = request.data
+        preguntas = request.data['preguntas']
+
+        # Get curso object
+        curso = Curso.objects.get(pk=evaluacion_data['curso'])
+        # Create evaluacion object
+        evaluacion = Evaluacion.objects.get(pk=evaluacion_data['id'])
+
+        evaluacion.curso = curso
+        evaluacion.titulo = evaluacion_data['titulo']
+        evaluacion.save()
+        # Iterar sobre las preguntas para modificar cada uno y luego sus respuestas
+        for pregunta in preguntas:
+            # Get pregunta object
+            pregunta_object = Pregunta.objects.get(pk=pregunta['id'])
+            pregunta_object.titulo = pregunta['titulo']
+            pregunta_object.save()
+            for respuesta in pregunta['respuestas']:
+                respuesta_object = Respuesta.objects.get(pk=respuesta['id'])
+                respuesta_object.titulo = respuesta['titulo']
+                respuesta_object.correcto = respuesta['correcto']
+                respuesta_object.save()
+        serializer = EvaluacionSerializer(evaluacion)
+        return Response(serializer.data)

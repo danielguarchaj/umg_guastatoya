@@ -33,6 +33,7 @@ class PreguntaSerializer(serializers.ModelSerializer):
 class EvaluacionSerializer(serializers.ModelSerializer):
     preguntas = PreguntaSerializer(many=True)
     catedratico = UserProfileSerializer()
+    curso = CursoSerializer()
     class Meta:
         model = Evaluacion
         fields = '__all__'
