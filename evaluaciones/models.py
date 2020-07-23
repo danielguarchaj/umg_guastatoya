@@ -30,7 +30,8 @@ class EvaluacionResuelta(models.Model):
     ponderacion = models.IntegerField(default=0)
     fecha_hora_creacion = models.DateTimeField(auto_now_add=True)
     comentario = models.TextField(null=True, blank=True)
-
+    
+    evaluacion = models.ForeignKey(Evaluacion, on_delete=models.CASCADE, related_name='evaluacion_evaluaciones_resueltas')
     estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='estudiante_evaluaciones_resueltas')
 
 

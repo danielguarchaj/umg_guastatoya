@@ -6,12 +6,14 @@ from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
 
-from evaluaciones.serializers import EvaluacionSerializer, CursoSerializer
+from evaluaciones.serializers import EvaluacionSerializer, CursoSerializer, EvaluacionResueltaSerializer
 from evaluaciones.models import (
     Evaluacion,
     Pregunta,
     Respuesta,
     Curso,
+    EvaluacionResuelta,
+    RespuestaSeleccionada,
 )
 from django.contrib.auth.models import User
 
@@ -97,3 +99,37 @@ class UpdateEvaluacionAPIView(APIView):
                 respuesta_object.save()
         serializer = EvaluacionSerializer(evaluacion)
         return Response(serializer.data)
+
+
+class SolveEvaluacionAPIView(APIView):
+    # permission_classes = (IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+
+        evaluacion_object = Evaluacion.objects.get(pk=data['evaluacion'])
+        estudiante_object = User.objects.get(pk=data['estudiante'])
+
+        evaluacion_resuelta = EvaluacionResuelta.objects.create(
+            evaluacion = evaluacion_object,
+            estudiante = estudiante_object,
+        )
+        aciertos = 0
+        for r in data['respuestas']:
+            respuesta = Respuesta.objects.get(pk=r)
+            if respuesta.correcto:
+                aciertos += 1
+            RespuestaSeleccionada.objects.create(
+                respuesta = respuesta,
+                evaluacion_resuelta = evaluacion_resuelta,
+            )
+        evaluacion_resuelta.ponderacion = aciertos
+        evaluacion_resuelta.save()
+        serializer = EvaluacionResueltaSerializer(evaluacion_resuelta)
+        return Response(serializer.data)
+
+
+class SolvedEvaluacionesListAPIView(ListAPIView):
+    serializer_class = EvaluacionResueltaSerializer
+    queryset = EvaluacionResuelta.objects.all()
+    # permission_classes = (IsAuthenticated, )

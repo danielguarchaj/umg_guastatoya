@@ -38,3 +38,18 @@ class EvaluacionSerializer(serializers.ModelSerializer):
         model = Evaluacion
         fields = '__all__'
 
+
+class RespuestaSeleccionadaSerializer(serializers.ModelSerializer):
+    respuesta = RespuestaSerializer()
+    class Meta:
+        model = RespuestaSeleccionada
+        fields = '__all__'
+
+
+class EvaluacionResueltaSerializer(serializers.ModelSerializer):
+    evaluacion = EvaluacionSerializer()
+    estudiante = UserProfileSerializer()
+    evaluacion_resuelta_respuestas_seleccionadas = RespuestaSeleccionadaSerializer(many=True)
+    class Meta:
+        model = EvaluacionResuelta
+        fields = '__all__'
