@@ -21,23 +21,23 @@ from django.contrib.auth.models import User
 class CursoViewSet(ModelViewSet):
     serializer_class = CursoSerializer
     queryset = Curso.objects.all()
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
 
 class EvaluacionList(ListAPIView):
     serializer_class = EvaluacionSerializer
     queryset = Evaluacion.objects.all()
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
 
 class EvaluacionRetrieve(RetrieveAPIView):
     serializer_class = EvaluacionSerializer
     queryset = Evaluacion.objects.all()
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
 
 class CreateEvaluacionAPIView(APIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         evaluacion_data = request.data
@@ -72,7 +72,7 @@ class CreateEvaluacionAPIView(APIView):
 
 
 class UpdateEvaluacionAPIView(APIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         evaluacion_data = request.data
@@ -102,7 +102,7 @@ class UpdateEvaluacionAPIView(APIView):
 
 
 class SolveEvaluacionAPIView(APIView):
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
         data = request.data
@@ -132,4 +132,10 @@ class SolveEvaluacionAPIView(APIView):
 class SolvedEvaluacionesListAPIView(ListAPIView):
     serializer_class = EvaluacionResueltaSerializer
     queryset = EvaluacionResuelta.objects.all()
-    # permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, )
+
+
+class SolvedEvaluacionesRetrieveAPIView(RetrieveAPIView):
+    serializer_class = EvaluacionResueltaSerializer
+    queryset = EvaluacionResuelta.objects.all()
+    permission_classes = (IsAuthenticated, )
