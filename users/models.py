@@ -10,6 +10,7 @@ class Profile(models.Model):
     (1, 'Administrador'),
     (2, 'Profesor'),
     (3, 'Estudiante'),
+    (4, 'Publicador'),
   ])
   raw_password = models.CharField(max_length=250, null=True, blank=True)
 
