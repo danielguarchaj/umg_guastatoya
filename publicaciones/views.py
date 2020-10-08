@@ -20,6 +20,10 @@ from .pagniations import (
     PublicacionPagination
 )
 
+from .permissions import (
+    IsAdminOrPublisher
+)
+
 
 class ClasificacionViewSet(ModelViewSet):
     serializer_class = ClasificacionSerializer
@@ -35,7 +39,7 @@ class PublicacionListView(ListAPIView):
 
 
 class PublicacionViewSet(ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly, IsAdminOrPublisher)
     filterset_class = PublicacionFilter
     pagination_class = PublicacionPagination
 

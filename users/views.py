@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 
 from django.forms.models import model_to_dict
 
+from .permissions import IsAdmin
+
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -33,7 +35,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class UserViewSet(ModelViewSet):
     serializer_class = UserProfileSerializer
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsAdmin)
 
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
@@ -44,7 +46,7 @@ class UserViewSet(ModelViewSet):
 class ProfileViewSet(ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsAdmin)
 
     def partial_update(self, request, *args, **kwargs):
         response = super(ProfileViewSet, self).partial_update(request, *args, **kwargs)
